@@ -870,7 +870,7 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
         return currentPageIndex
     }
 
-    func reloadData() {
+    open func reloadData() {
         // Reset
         mediaCount = -1
         
