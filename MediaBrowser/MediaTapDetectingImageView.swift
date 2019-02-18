@@ -12,6 +12,16 @@ import Foundation
 class MediaTapDetectingImageView: UIImageView {
     weak var tapDelegate: TapDetectingImageViewDelegate?
     
+    override var transform: CGAffineTransform {
+        get {return super.transform}
+        set {
+            super.transform = newValue
+            for v in subviews {
+                v.transform = self.transform.inverted()
+            }
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         isUserInteractionEnabled = true

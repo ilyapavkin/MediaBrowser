@@ -125,7 +125,7 @@ class MediaZoomingScrollView: UIScrollView, UIScrollViewDelegate, TapDetectingIm
             media = p
             if let overlay = p?.overlayedViews {
                 for o in overlay {
-                    addSubview(o);
+                    photoImageView.addSubview(o);
                 }
             }
             if let image = mediaBrowser.image(for: media), image !== mediaBrowser.placeholderImage?.image {
