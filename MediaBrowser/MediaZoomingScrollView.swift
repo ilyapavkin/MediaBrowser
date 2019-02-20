@@ -21,6 +21,7 @@ class MediaZoomingScrollView: UIScrollView, UIScrollViewDelegate, TapDetectingIm
     var tapView = MediaTapDetectingView(frame: .zero) // for background taps
     var photoImageView = MediaTapDetectingImageView(frame: .zero)
     var loadingError: UIImageView?
+    var longTapHandler: ((UIImageView, CGPoint, UIGestureRecognizerState)->Void)?
     
     init(mediaBrowser: MediaBrowser) {
         super.init(frame: .zero)
@@ -436,6 +437,8 @@ class MediaZoomingScrollView: UIScrollView, UIScrollViewDelegate, TapDetectingIm
         mediaBrowser.hideControlsAfterDelay()
     }
     
+    
+    
     // Image View
     func singleTapDetectedInImageView(view: UIImageView, touch: UITouch) {
         handleSingleTap(touchPoint: touch.location(in: view))
@@ -447,6 +450,10 @@ class MediaZoomingScrollView: UIScrollView, UIScrollViewDelegate, TapDetectingIm
     
     func tripleTapDetectedInImageView(view: UIImageView, touch: UITouch) {
         
+    }
+    
+    func longTapDetectedInImageView(view: UIImageView, at: CGPoint, state: UIGestureRecognizerState) {
+        longTapHandler?(view, at, state);
     }
     
     // Background View

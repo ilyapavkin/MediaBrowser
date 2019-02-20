@@ -11,6 +11,11 @@ import Foundation
 
 class MediaTapDetectingImageView: UIImageView {
     weak var tapDelegate: TapDetectingImageViewDelegate?
+    let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(_:)));
+    
+    @objc func longTap(_ sender: UIGestureRecognizer) {
+        tapDelegate?.longTapDetectedInImageView(view: self, at: sender.location(in: self), state: sender.state)
+    }
     
     override var transform: CGAffineTransform {
         get {return super.transform}
@@ -25,16 +30,19 @@ class MediaTapDetectingImageView: UIImageView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         isUserInteractionEnabled = true
+        addGestureRecognizer(longPressGesture);
     }
     
     override init(image: UIImage?) {
         super.init(image: image)
         isUserInteractionEnabled = true
+        addGestureRecognizer(longPressGesture);
     }
     
     override init(image: UIImage?, highlightedImage: UIImage?) {
         super.init(image: image, highlightedImage: highlightedImage)
         isUserInteractionEnabled = true
+        addGestureRecognizer(longPressGesture);
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -72,4 +80,5 @@ protocol TapDetectingImageViewDelegate: class {
     func singleTapDetectedInImageView(view: UIImageView, touch: UITouch)
     func doubleTapDetectedInImageView(view: UIImageView, touch: UITouch)
     func tripleTapDetectedInImageView(view: UIImageView, touch: UITouch)
+    func longTapDetectedInImageView(view: UIImageView, at: CGPoint, state: UIGestureRecognizerState)
 }
