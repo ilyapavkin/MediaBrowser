@@ -210,6 +210,8 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
             }
         }
     }
+    
+    public var longTapHandler: ((UIImageView, CGPoint, UIGestureRecognizerState, Int)->Void)?
 
     /**
      Placeholder image
@@ -1185,6 +1187,12 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
                 page.loadingIndicator.font = loadingIndicatorFont
                 page.loadingIndicator.fontColor = loadingIndicatorFontColor
                 page.loadingIndicator.shouldShowValueText = loadingIndicatorShouldShowValueText
+                
+                if let closure = self.longTapHandler {
+                    page.longTapHandler = {(view: UIImageView, at: CGPoint, state: UIGestureRecognizerState) in
+                        closure(view, at, state, index);
+                    }
+                }
                 
                 visiblePages.insert(page)
                 configurePage(page: page, forIndex: index)
