@@ -9,9 +9,8 @@
 
 import Foundation
 
-class MediaTapDetectingImageView: UIImageView {
+class MediaTapDetectingImageView: UIImageView, UIGestureRecognizerDelegate {
     weak var tapDelegate: TapDetectingImageViewDelegate?
-    let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(_:)));
     
     @objc func longTap(_ sender: UIGestureRecognizer) {
         tapDelegate?.longTapDetectedInImageView(view: self, at: sender.location(in: self), state: sender.state)
@@ -27,22 +26,31 @@ class MediaTapDetectingImageView: UIImageView {
         }
     }
     
+    func prepareGR() {
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longTap(_:)));
+        
+        longPressGesture.minimumPressDuration = 0.5
+        longPressGesture.delaysTouchesBegan = true
+        longPressGesture.delegate = self
+        addGestureRecognizer(longPressGesture)
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         isUserInteractionEnabled = true
-        addGestureRecognizer(longPressGesture);
+        prepareGR();
     }
     
     override init(image: UIImage?) {
         super.init(image: image)
         isUserInteractionEnabled = true
-        addGestureRecognizer(longPressGesture);
+        prepareGR();
     }
     
     override init(image: UIImage?, highlightedImage: UIImage?) {
         super.init(image: image, highlightedImage: highlightedImage)
         isUserInteractionEnabled = true
-        addGestureRecognizer(longPressGesture);
+        prepareGR();
     }
     
     required init?(coder aDecoder: NSCoder) {
