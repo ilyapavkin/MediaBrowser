@@ -2019,14 +2019,13 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
     }
 
     //MARK: - Properties
-
-    var currentPhotoIndex: Int {
+    open internal(set) var currentPhotoIndex: Int {
         set(i) {
             var index = i
-        
+            
             // Validate
             let photoCount = numberOfMedias
-        
+            
             if 0 == photoCount {
                 index = 0
             } else if index >= photoCount {
@@ -2034,7 +2033,7 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
             }
             
             currentPageIndex = index
-        
+            
             if isViewLoaded {
                 jumpToPageAtIndex(index: index, animated: false)
                 if !viewIsActive {
@@ -2044,10 +2043,10 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
         }
         
         get {
-            return currentPageIndex
+            return currentPageIndex;
         }
     }
-
+    
     //MARK: - Misc
 
     @objc func doneButtonPressed(sender: AnyObject) {
