@@ -124,19 +124,6 @@ class MediaZoomingScrollView: UIScrollView, UIScrollViewDelegate, TapDetectingIm
                 media!.cancelAnyLoading()
             }
             media = p
-            if let overlay = p?.overlayedViews {
-                for o in overlay {
-                    if(o.superview == nil) {
-                        let x = photoImageView.bounds.width * o.frame.origin.x;
-                        let y = photoImageView.bounds.height * o.frame.origin.y;
-                        var f = o.frame;
-                        f.origin.x = x;
-                        f.origin.y = y;
-                        o.frame = f;
-                    }
-                    photoImageView.addSubview(o);
-                }
-            }
             if let image = mediaBrowser.image(for: media), image !== mediaBrowser.placeholderImage?.image {
                 self.displayImage()
             } else {
@@ -173,6 +160,20 @@ class MediaZoomingScrollView: UIScrollView, UIScrollViewDelegate, TapDetectingIm
                 let photoImageViewFrame = CGRect(origin: CGPoint.zero, size: img.size)
                 photoImageView.frame = photoImageViewFrame
                 contentSize = photoImageViewFrame.size
+                
+                if let overlay = media!.overlayedViews {
+                    for o in overlay {
+                        if(o.superview == nil) {
+                            let x = photoImageView.bounds.width * o.frame.origin.x;
+                            let y = photoImageView.bounds.height * o.frame.origin.y;
+                            var f = o.frame;
+                            f.origin.x = x;
+                            f.origin.y = y;
+                            o.frame = f;
+                            photoImageView.addSubview(o);
+                        }
+                    }
+                }
                 
                 // Set zoom to minimum zoom
                 setMaxMinZoomScalesForCurrentBounds()
