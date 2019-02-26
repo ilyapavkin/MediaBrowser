@@ -13,7 +13,9 @@ class MediaTapDetectingImageView: UIImageView, UIGestureRecognizerDelegate {
     weak var tapDelegate: TapDetectingImageViewDelegate?
     
     @objc func longTap(_ sender: UIGestureRecognizer) {
-        tapDelegate?.longTapDetectedInImageView(view: self, at: sender.location(in: self), state: sender.state)
+        let loc = sender.location(in: self);
+        let bounds = self.bounds;
+        tapDelegate?.longTapDetectedInImageView(view: self, at: CGPoint(x: loc.x / bounds.width, y:loc.y / bounds.height), state: sender.state)
     }
     
     override var transform: CGAffineTransform {
