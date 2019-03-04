@@ -44,6 +44,8 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
     private var nextButton: UIBarButtonItem?
     private var actionButton: UIBarButtonItem?
     private var doneButton: UIBarButtonItem?
+    open var customLeftToolbarButton: UIBarButtonItem?
+    open var customRightToolbarButton: UIBarButtonItem?
     
     // Grid
     private var gridController: MediaGridViewController?
@@ -518,7 +520,11 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
                 target: self,
                 action: #selector(MediaBrowser.showGridAnimated)))
         } else {
-            items.append(fixedSpace)
+            if let cltb = customLeftToolbarButton {
+                items.append(cltb);
+            } else {
+                items.append(fixedSpace);
+            }
         }
 
         // Middle - Nav
@@ -534,19 +540,25 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
             items.append(flexSpace)
         }
 
-        // Right - Action
-        if actionButton != nil && !(!hasItems && nil == navigationItem.rightBarButtonItem) {
-            items.append(actionButton!)
-        } else {
-            // We're falset showing the toolbar so try and show in top right
-            if actionButton != nil {
+        // Right - Action or custom
+        if actionButton != nil {
+            if !(!hasItems && nil == navigationItem.rightBarButtonItem) {
+                items.append(actionButton!);
+            } else {
                 // only show Action button on top right if this place is empty (no Done button there)
                 if nil == self.navigationItem.rightBarButtonItem {
-                	navigationItem.rightBarButtonItem = actionButton!
+                    navigationItem.rightBarButtonItem = actionButton!
                 }
+                items.append(fixedSpace)
             }
-            items.append(fixedSpace)
+        } else {
+            if let crtb = customRightToolbarButton {
+                items.append(crtb)
+            } else {
+                items.append(fixedSpace)
+            }
         }
+        
 
         // Toolbar visibility
         toolbar.setItems(items, animated: false)
