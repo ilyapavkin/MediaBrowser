@@ -362,8 +362,22 @@ class MediaZoomingScrollView: UIScrollView, UIScrollViewDelegate, TapDetectingIm
         }
         
         if let overlay = media!.overlayedViews {
-            for o in overlay {
-                o.isHidden = !mediaBrowser.overlayVisible;
+            if(loadingIndicator.isHidden && overlay.count > 0 && overlay[0].isHidden == mediaBrowser.overlayVisible) {
+                for o in overlay {
+                    let isHidden = !self.mediaBrowser.overlayVisible;
+                    o.isHidden = isHidden;
+                    if(isHidden) {
+                        let x = o.frame.origin.x / photoImageView.bounds.width;
+                        let y = o.frame.origin.y / photoImageView.bounds.height;
+                        var f = o.frame;
+                        f.origin.x = x;
+                        f.origin.y = y;
+                        o.removeFromSuperview();
+                        o.frame = f;
+                    } else if (o.superview == nil) {
+                        photoImageView.addSubview(o);
+                    }
+                }
             }
         }
         
