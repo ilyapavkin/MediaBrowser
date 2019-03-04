@@ -161,20 +161,6 @@ class MediaZoomingScrollView: UIScrollView, UIScrollViewDelegate, TapDetectingIm
                 photoImageView.frame = photoImageViewFrame
                 contentSize = photoImageViewFrame.size
                 
-                if let overlay = media!.overlayedViews {
-                    for o in overlay {
-                        if(o.superview == nil) {
-                            let x = photoImageView.bounds.width * o.frame.origin.x;
-                            let y = photoImageView.bounds.height * o.frame.origin.y;
-                            var f = o.frame;
-                            f.origin.x = x;
-                            f.origin.y = y;
-                            o.frame = f;
-                            photoImageView.addSubview(o);
-                        }
-                    }
-                }
-                
                 // Set zoom to minimum zoom
                 setMaxMinZoomScalesForCurrentBounds()
                 
@@ -359,6 +345,26 @@ class MediaZoomingScrollView: UIScrollView, UIScrollViewDelegate, TapDetectingIm
                 y: floorcgf(x: (bounds.size.height - le.frame.size.height) / 2.0),
                 width: le.frame.size.width,
                 height: le.frame.size.height)
+        }
+        
+        if let overlay = media!.overlayedViews {
+            for o in overlay {
+                if mediaBrowser.overlayVisible {
+                    if(o.superview == nil) {
+                        let x = photoImageView.bounds.width * o.frame.origin.x;
+                        let y = photoImageView.bounds.height * o.frame.origin.y;
+                        var f = o.frame;
+                        f.origin.x = x;
+                        f.origin.y = y;
+                        o.frame = f;
+                        photoImageView.addSubview(o);
+                    }
+                } else {
+                    if (o.superview != nil) {
+                        o.removeFromSuperview();
+                    }
+                }
+            }
         }
         
         // Super

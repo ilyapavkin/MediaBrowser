@@ -36,6 +36,7 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
     private var previousPageIndex = Int.max
     private var previousLayoutBounds = CGRect.zero
 	private var pageIndexBeforeRotation = 0
+    private var overlayVisibility = true;
 	
 	// Navigation & controls
 	private var toolbar = UIToolbar()
@@ -2056,6 +2057,20 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
         
         get {
             return currentPageIndex;
+        }
+    }
+    
+    open var overlayVisible: Bool {
+        set(b) {
+            overlayVisibility = b;
+            if isViewLoaded {
+                performLayout();
+                view.setNeedsLayout();
+            }
+        }
+        
+        get {
+            return overlayVisibility;
         }
     }
     
