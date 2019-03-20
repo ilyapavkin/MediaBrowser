@@ -1081,7 +1081,7 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
         }
     }
     
-    open func didLoadPhoto() {
+    open func didLoadPhoto(index: Int) {
         
     }
 
@@ -1091,7 +1091,6 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
             if let page = pageDisplayingPhoto(photo: photo) {
                 if photo.underlyingImage != nil {
                     // Successful load
-                    didLoadPhoto();
                     page.displayImage()
                     loadAdjacentPhotosIfNecessary(photo: photo)
                 } else {
@@ -1341,6 +1340,7 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
 
     // Handle page changes
     func didStartViewingPageAtIndex(index: Int) {
+        didLoadPhoto(index: index);
         // Handle 0 photos
         if 0 == numberOfMedias {
             // Show controls
