@@ -1737,6 +1737,10 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
             // Clear up
             clearCurrentVideo()
             
+            if let d = delegate {
+                d.mediaBrowserDidFinishPlayingVideo(mediaBrowser: self)
+            }
+            
             // Dismiss
             if let errorObj = notification.userInfo?[MPMoviePlayerPlaybackDidFinishReasonUserInfoKey] {
                 let error = MPMovieFinishReason(rawValue: errorObj as! Int)

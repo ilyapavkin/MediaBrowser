@@ -101,12 +101,16 @@ public protocol MediaBrowserDelegate: class {
      - Returns: Optional CGSize
      */
     func gridCellSize() -> CGSize?
+    
+    func mediaBrowserDidFinishPlayingVideo(mediaBrowser: MediaBrowser)
 }
 
 public extension MediaBrowserDelegate {
     func mediaBrowserDidFinishModalPresentation(mediaBrowser: MediaBrowser) {
         mediaBrowser.dismiss(animated: true, completion: nil)
     }
+    
+    
 
     func thumbnail(for mediaBrowser: MediaBrowser, at index: Int) -> Media { return Media() }
 
@@ -123,4 +127,6 @@ public extension MediaBrowserDelegate {
     func title(for mediaBrowser: MediaBrowser, at index: Int) -> String? { return nil }
     
     func gridCellSize() -> CGSize? { return nil }
+    
+    func mediaBrowserDidFinishPlayingVideo(mediaBrowser: MediaBrowser) { }
 }
