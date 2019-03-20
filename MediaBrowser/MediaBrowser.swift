@@ -1036,6 +1036,8 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
         return self.placeholderImage?.image
     }
 
+    //open func
+    
     func loadAdjacentPhotosIfNecessary(photo: Media) {
         let page = pageDisplayingPhoto(photo: photo)
         if let p = page {
@@ -1078,6 +1080,10 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
             fatalError("Set delegate first for pre-caching")
         }
     }
+    
+    open func didLoadPhoto() {
+        
+    }
 
     //MARK: - Media Loading falsetification
     @objc func handlePhotoLoadingDidEndNotification(notification: NSNotification) {
@@ -1085,6 +1091,7 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
             if let page = pageDisplayingPhoto(photo: photo) {
                 if photo.underlyingImage != nil {
                     // Successful load
+                    didLoadPhoto();
                     page.displayImage()
                     loadAdjacentPhotosIfNecessary(photo: photo)
                 } else {
@@ -1685,6 +1692,14 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
             player.moviePlayer.shouldAutoplay = true
             player.moviePlayer.scalingMode = .aspectFit
             player.modalTransitionStyle = .crossDissolve
+            
+            for view in player.view.subviews {
+                for pinch in view.gestureRecognizers! {
+                    if pinch is UIPinchGestureRecognizer {
+                        view.removeGestureRecognizer(pinch);
+                    }
+                }
+            }
             
             do {
                 try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
