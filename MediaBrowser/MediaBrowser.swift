@@ -1207,8 +1207,9 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
                 page.loadingIndicator.fontColor = loadingIndicatorFontColor
                 page.loadingIndicator.shouldShowValueText = loadingIndicatorShouldShowValueText
                 
-                if let closure = self.longTapHandler {
-                    page.longTapHandler = {(view: UIImageView, at: CGPoint, state: UIGestureRecognizerState) in
+                
+                page.longTapHandler = {(view: UIImageView, at: CGPoint, state: UIGestureRecognizerState) in
+                    if let closure = self.longTapHandler {
                         closure(view, at, state, index);
                     }
                 }
