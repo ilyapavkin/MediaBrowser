@@ -365,7 +365,11 @@ class MediaZoomingScrollView: UIScrollView, UIScrollViewDelegate, TapDetectingIm
             if(loadingIndicator.isHidden && overlay.count > 0 && overlay[0].isHidden == mediaBrowser.overlayVisible) {
                 for o in overlay {
                     let isHidden = !self.mediaBrowser.overlayVisible;
-                    o.isHidden = isHidden;
+                    var shouldBeVisible = true;
+                    if let i = media!.index {
+                        shouldBeVisible = (self.index == i || mediaBrowser.currentPhotoIndex == i);
+                    }
+                    o.isHidden = isHidden && shouldBeVisible;
                     if(isHidden) {
                         let x = o.frame.origin.x / photoImageView.bounds.width;
                         let y = o.frame.origin.y / photoImageView.bounds.height;

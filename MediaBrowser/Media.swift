@@ -36,6 +36,8 @@ open class Media: NSObject {
     
     /// additional
     public var overlayedViews: [UIView]?
+    
+    public var index: Int?;
 
     private let uuid = NSUUID().uuidString
     private var image: UIImage?

@@ -1312,6 +1312,7 @@ open class MediaBrowser: UIViewController, UIScrollViewDelegate, UIActionSheetDe
         page.frame = frameForPageAtIndex(index: index)
         page.index = index
         page.photo = mediaAtIndex(index: index)
+        page.photo?.index = index;
 //        page.backgroundColor = areControlsHidden ? UIColor.black : UIColor.white
     }
 
